@@ -1,0 +1,10 @@
+Explain the given Bible verse faithfully.
+
+Include:
+1. Plain explanation
+2. Original Hebrew/Greek insight if relevant
+3. Scripture cross-references
+4. Historical or cultural context if helpful
+5. A clear summary takeaway
+
+Always cite Bible passages.
