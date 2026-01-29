@@ -1,33 +1,27 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
 import os
 from openai import OpenAI
 
-app = FastAPI()
+class LogosEngine:
+    def __init__(self):
+        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-class BibleQuestion(BaseModel):
-    question: str
-
-@app.post("/ask")
-async def ask_bible_ai(data: BibleQuestion):
-    prompt = f"""
+    def generate_response(self, question: str):
+        prompt = f"""
 You are a Bible scholar and teacher.
-Answer the question using scripture, wisdom, and clear explanation.
+Answer the question using scripture, wisdom, and clarity.
 
-Question: {data.question}
+Question: {question}
 
 Answer:
 """
 
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        response = self.client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a Bible scholar AI."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=300
+        )
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a Bible scholar."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=300
-    )
-
-    return {"answer": response.choices[0].message.content}
+        return response.choices[0].message.content.strip()
