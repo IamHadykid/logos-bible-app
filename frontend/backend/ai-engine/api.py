@@ -10,9 +10,9 @@ class Question(BaseModel):
 
 @app.get("/")
 def home():
-    return {"status": "Logos AI Engine Running"}
+    return {"status": "Logos Bible AI Engine Running"}
 
 @app.post("/ask")
 def ask_logos(data: Question):
-    response = engine.generate_response(data.question)
-    return {"answer": response}
+    answer = engine.generate_response(data.question)
+    return {"answer": answer}
